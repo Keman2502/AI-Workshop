@@ -1,0 +1,143 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "get_events",
+      "description": "Retrieves events from Google Calendar within a specified time period. Call this whenever you need information of events in the Google Calendar, for example when a user asks 'can you tell me whats going on tommorrow?' If the user does not specify a duration, use the current week.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "string",
+            "description": "The duration in days for which to retrieve events. Must be in numeric"
+          }
+        },
+        "required": ["duration"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "create_event",
+      "description": "Schedules a new event in Google Calendar. Call this whenever you need to schedule an event in Google Calendar. You can interpret the functions required from the user if given. If not, ask the user for them.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "start_time": {
+            "type": "string",
+            "description": "The start time of the event in 'YYYY-MM-DDTHH:MM:SS' format."
+          },
+          "end_time": {
+            "type": "string",
+            "description": "The end time of the event in 'YYYY-MM-DDTHH:MM:SS' format."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the event."
+          },
+          "location": {
+            "type": "string",
+            "description": "The location of the event."
+          },
+          "attendees": {
+            "type": "array",
+            "description": "Attendees or guests of the event.",
+            "items": {
+              "type": "object",
+              "description": "Attendee or guest of the event.",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "The email of the attendee."
+                }
+              }
+            }
+          },
+          "conference": {
+            "type": "boolean",
+            "description": "Whether to generate a Google Meet link for the event. Defaults to true."
+          },
+          "reminders": {
+            "type": "array",
+            "description": "Custom reminders for the event. Defaults to an email reminder 24 hours before and a popup reminder 10 minutes before.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "description": "Reminder method, either 'email' or 'popup'."
+                },
+                "minutes": {
+                  "type": "integer",
+                  "description": "Minutes before the event when the reminder should be sent."
+                }
+              }
+            }
+          },
+          "visibility": {
+            "type": "string",
+            "description": "The visibility of the event. Can be 'default', 'public', 'private', or 'confidential'. Defaults to 'default'."
+          },
+          "recurrence": {
+            "type": "string",
+            "description": "Recurrence rule in RRULE format (e.g., 'RRULE:FREQ=DAILY;COUNT=5' for a daily event that repeats 5 times)."
+          }
+        },
+        "required": [
+          "title",
+          "start_time",
+          "end_time",
+          "description",
+          "location"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "delete_event",
+      "description": "Deletes an event in Google Calendar. Call this whenever you need to delete an event in Google Calendar. You can interpret the functions required from the user if given. If not, ask the user for them.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          }
+        },
+        "required": ["title"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "check_attendee_availability",
+      "description": "Checks if an attendee has scheduling conflicts during a proposed event time. Use this before scheduling meetings to ensure participants are available.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "attendee_email": {
+            "type": "string",
+            "description": "Email address of the attendee to check"
+          },
+          "start_time": {
+            "type": "string",
+            "description": "Proposed start time in 'YYYY-MM-DDTHH:MM:SS' format"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "Proposed end time in 'YYYY-MM-DDTHH:MM:SS' format"
+          }
+        },
+        "required": ["attendee_email", "start_time", "end_time"]
+      }
+    }
+  }
+]
